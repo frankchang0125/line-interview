@@ -1,0 +1,67 @@
+1.
+
+Load balancer / reverse proxy: NginX
+=> To spread the network traffic to multiple servers, in order to
+   reduce the traffic for each server.
+
+Database: MySQL or PostgresQL
+=> Store the user information and tweets.
+
+Cache: Redis
+=> Reduce the read traffic to database.
+
+CDN server
+=> As cache of Redis, we can use CDN to cache the static resources.
+   such as user profile's photo... etc to reduce the read traffic to database.
+
+Message Queue: RabbitMQ
+=> For background jobs, such as push notifications.
+
+Programming Language: RoR + Go
+=> RoR is a great framework to build the prototype of the product.
+   Howerver, due to GIL, it has some performance bottleneck when
+   network traffic increase. Go is a risen language and have good
+   performance on concurrency and CPU-bound task. We can use Go to
+   complete some high concurreny or CPU-bound tasks for performance
+   enhancement.
+
+
+2.
+ a. Post tweets / Delete tweets.
+ b. Follow user / Unfollower user.
+ c. Tweets timeline.
+ d. Login / Logout.
+ e. Push notification.
+
+
+3. tweets table (many-to-one relation to users table):
+    => tweet_id,
+       tweet_text,
+       user,
+       created_at,
+       updated_at
+
+   users table (one-:
+    => user_id,
+       name,
+       profile_photo_url,
+       description,
+       followers_count,
+       friends_count,
+       follower,
+       created_at,
+       updated_at
+
+    follower table (many-to-many for followers/following user):
+     => following_id,
+        follw_id
+
+
+4.
+ a. Security: Use HTTPS protocol and use salting and bcrypt
+              to save user's password.
+ b. Monitoring: Monitor and alert system failure.
+ c. Logging: Log the system logs, using such as ELK... etc.
+ d. Try to make system stateless for scaling.
+ e. Autoscaling when system loading increase.
+ d. Monitor and cache hot data, such as celebrity got married tweet.
